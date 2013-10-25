@@ -22,7 +22,7 @@ Proof.
   intros a b.
   elim a.
   elim b.
-  reflexivity.
+  apply refl_equal.
   reflexivity.
   reflexivity.
 Qed.

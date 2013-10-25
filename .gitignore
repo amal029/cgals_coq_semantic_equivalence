@@ -7,3 +7,9 @@
 *.cmx
 *.cmxs
 *.cmxa
+*.pdf
+*.tex
+*.aux
+*.log
+*.html
+*.sty
