@@ -54,7 +54,7 @@ Proof.
  Qed.
 
 
-Theorem associative_add: forall (n m:nat), n + m = m + n.
+Theorem comm_add: forall (n m:nat), n + m = m + n.
 Proof.
   intros n m.
   induction m.
