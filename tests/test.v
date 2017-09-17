@@ -189,7 +189,8 @@ Proof.
 Qed.
 
 
-Lemma tty: forall a b m n:nat, add_nat (add_nat a m) (add_nat b n) = add_nat (add_nat a b) (add_nat m n).
+Lemma tty: forall a b m n:nat, add_nat (add_nat a m) (add_nat b n)
+                        = add_nat (add_nat a b) (add_nat m n).
 Proof.
   intros a b m n.
   rewrite -> add_assoc.
@@ -230,4 +231,17 @@ Proof.
   intros x y f H.
   rewrite H.
   reflexivity.
+Qed.
+
+Fixpoint geq (x y : nat) : Prop :=
+                  match x with
+                  | Z => True
+                  | S x => geq x y
+                  end.
+
+
+Theorem geq_trans: forall x y z: nat, geq x y -> geq y z -> geq x z.
+Proof.
+  intros x y z H H0.
+  induction x; simpl; auto.
 Qed.
