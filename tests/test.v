@@ -224,3 +224,10 @@ Proof.
   rewrite <- add_commutes.
   apply tty.
 Qed.
+
+Theorem nat_cong: forall x y: nat, forall (f : nat -> nat), (x = y) -> (f x) = (f y).
+Proof.
+  intros x y f H.
+  rewrite H.
+  reflexivity.
+Qed.
