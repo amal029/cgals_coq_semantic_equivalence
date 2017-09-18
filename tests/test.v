@@ -246,13 +246,10 @@ Inductive exp : Type -> Type :=
 Check 2+3.
 Check (cons 2 nil).
 
-Inductive List (A : Set): Set :=
-| n : List A
-| c : A -> List A -> List A.
+Inductive List {A : Set}: Set :=
+| n : List 
+| c : A -> List  -> List .
 
-(* Why is this prodicing a function type? *)
-Arguments n [A].
-Arguments c [A].
 Check c (S Z) (n).
 
 Section Vector.
