@@ -1,3 +1,6 @@
+Require Import List.
+Require Import Bool.
+
 Inductive nat : Type :=
 | Z : nat
 | S : nat -> nat.
@@ -60,17 +63,6 @@ Proof.
   intros.
   split; auto.
 Qed.
-
-Inductive List (A : Type): Type :=
-| Nil : List A
-| Cons : A -> List A -> List A.
-
-(* Why is this prodicing a function type? *)
-Inductive Vec (A : Type): nat -> Type :=
-| VNil : Vec A Z
-| VCons : forall n : nat, A -> Vec A n -> Vec A (S n).
-
-Compute 1.
 
 Lemma tt: forall a b: nat, add_nat a (S b) = S (add_nat a b).
 Proof.
@@ -244,4 +236,48 @@ Theorem geq_trans: forall x y z: nat, geq x y -> geq y z -> geq x z.
 Proof.
   intros x y z H H0.
   induction x; simpl; auto.
+Qed.
+
+Inductive exp : Type -> Type :=
+| Const : forall T, T -> exp T
+| Pair : forall T1 T2, exp T1 -> exp T2 -> exp (T1 * T2)
+| Eq : forall T, exp T -> exp T -> exp bool.
+
+Check 2+3.
+Check (cons 2 nil).
+
+Inductive List (A : Set): Set :=
+| n : List A
+| c : A -> List A -> List A.
+
+(* Why is this prodicing a function type? *)
+Arguments n [A].
+Arguments c [A].
+Check c (S Z) (n).
+
+Section Vector.
+Inductive Vec (A: Set) : nat -> Set :=
+| VNil : Vec A Z
+| VCons : forall n : nat, A -> Vec A n -> Vec A (S n).
+
+Arguments VCons [A] [n].
+Arguments VNil [A].
+
+Check VCons 2 (VCons 1 VNil).
+End Vector.
+
+Inductive eqsat {A : Set} (f g : A -> A) : Type :=
+  feqg : forall x : A, (f x = g x) -> eqsat f g.
+
+Definition f (A B C : bool): bool :=
+  (A && B) || ((B && C) && (B ||C)).
+
+Definition g (A B C :bool) : bool :=
+  B && (A ||C).
+
+Lemma fgsat : forall a b c: bool, eqsat (f a b) (g a b).
+Proof.
+  intros a b c.
+  refine (feqg (f a b) (g a b) c _).
+  destruct a, b, c; simpl; auto.
 Qed.
